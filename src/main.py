@@ -17,7 +17,7 @@ K_LATEST_PING_RESULT = 'latest_ping_result'
 
 
 def one_ping(ip):
-    ping_count = '1'
+    ping_count = '2'
     ping_timeout = '1'
     res = subprocess.Popen(
         ['ping', '-c', ping_count, '-n', '-W', ping_timeout, ip],
@@ -110,9 +110,9 @@ def main():
         find_active_ips()  # step 1
     if not latest_mapping_result or opts.force:
         resolve_host_ip_mapping()  # step2
-    hosts = generate_hosts()  # test3
+    hosts = generate_hosts()  # step3
     with open('hosts', 'w') as fh:
-        fh.writelines(('%s   %s\n' % (i[1] or '#unknown', i[0])
+        fh.writelines(('%s  86400   IN  A   %s\n' % (i[0] or '#unknown', i[1])    # In DNS record format
                       for i in hosts))
     print 'done! checkout `hosts` in current directory'
 
